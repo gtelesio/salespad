@@ -52,16 +52,18 @@ Register a new potential client in the system.
 - **Description**: Creates a lead with status `new`. Enforces unique `contactInfo`.
 
 #### Request Body
-| Field | Type | Required | constraints | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `name` | `string` | **Yes** | Not Empty | Full name of the lead. |
-| `contactInfo` | `string` | **Yes** | Valid Email | Unique contact identifier (email or phone). |
+| Field       | Type     | Required | Description                                     | Constraints            |
+| :---------- | :------- | :------- | :---------------------------------------------- | :--------------------- |
+| name        | `string` | Yes      | Full name of the lead                           | Not empty              |
+| contactInfo | `string` | Yes      | Contact identifier (Email, Phone, LinkedIn URL) | Not empty              |
+| channel     | `enum`   | No       | The contact channel                             | `email`, `whatsapp`, `linkedin` |
 
 #### Example Request
 ```json
 {
-  "name": "Jane Doe",
-  "contactInfo": "jane.doe@example.com"
+  "name": "Jane Smith",
+  "contactInfo": "jane.smith@example.com",
+  "channel": "email"
 }
 ```
 
