@@ -1,75 +1,75 @@
-# Guía de Uso y API
+# Usage Guide & API
 
-Esta guía detalla cómo interactuar con los endpoints de la API de Salespad.
+This guide details how to interact with the Salespad API endpoints.
 
-## Recurso: Leads
+## Resource: Leads
 
-### 1. Crear un Lead
-Crea un nuevo prospecto en el sistema.
+### 1. Create a Lead
+Creates a new prospect in the system.
 - **Endpoint:** `POST /leads`
 - **Body:**
   ```json
   {
-    "name": "Juan Perez",
-    "contactInfo": "juan@example.com"
+    "name": "John Doe",
+    "contactInfo": "john@example.com"
   }
   ```
-- **Resultado:** Crea el lead con estado `NEW` y registra el evento `CREATED`.
+- **Result:** Creates lead with `NEW` status and logs `CREATED` event.
 
-### 2. Obtener un Lead
-Recupera la información de un lead, incluyendo su historial de eventos.
+### 2. Get a Lead
+Retrieves lead information, including full event history.
 - **Endpoint:** `GET /leads/:id`
-- **Resultado:** Objeto Lead completo con array de `events`.
+- **Result:** Complete Lead object with `events` array.
 
-### 3. Enviar Mensaje Saliente (Outbound)
-Envía un email al lead y actualiza su estado.
+### 3. Send Outbound Message
+Sends an email to the lead and updates status.
 - **Endpoint:** `POST /leads/send`
 - **Body:**
   ```json
   {
-    "leadId": "uuid-del-lead",
-    "message": "Hola, ¿cómo estás?"
+    "leadId": "lead-uuid",
+    "message": "Hello, how are you?"
   }
   ```
-- **Resultado:**
-  - Cambia estado a `CONTACTED`.
-  - Registra evento `OUTBOUND`.
-  - Encola un trabajo en BullMQ para enviar el email realmente (simulado con delay).
+- **Result:**
+  - Updates status to `CONTACTED`.
+  - Logs `OUTBOUND` event.
+  - Enqueues job in BullMQ to actually send email (simulated with delay).
 
-### 4. Procesar Respuesta Entrante (Inbound)
-Registra que el lead ha respondido.
+### 4. Process Inbound Reply
+Registers that the lead has replied.
 - **Endpoint:** `POST /leads/reply`
 - **Body:**
   ```json
   {
-    "leadId": "uuid-del-lead",
-    "content": "Estoy interesado, gracias."
+    "leadId": "lead-uuid",
+    "content": "I am interested, thanks."
   }
   ```
-- **Resultado:**
-  - Cambia estado a `REPLIED`.
-  - Registra evento `INBOUND`.
+- **Result:**
+  - Updates status to `REPLIED`.
+  - Logs `INBOUND` event.
 
-### 5. Generar Respuesta con IA
-Utiliza el servicio de IA para analizar la conversación y responder automáticamente.
+### 5. Generate AI Reply
+Triggers AI service to analyze conversation and auto-respond.
 - **Endpoint:** `POST /leads/ai-reply`
 - **Body:**
   ```json
   {
-    "leadId": "uuid-del-lead"
+    "leadId": "lead-uuid"
   }
   ```
-- **Resultado:**
-  - Analiza el último mensaje (Mock AI).
-  - Genera una respuesta.
-  - Registra evento `SYSTEM_LOG`.
-  - Envía la respuesta usando el flujo de Outbound Message.
+- **Result:**
+  - Analyzes last message (Mock AI).
+  - Generates a response.
+  - Logs `SYSTEM_LOG` event.
+  - Sends response using Outbound Message flow.
 
 ---
 
-## Colección de Postman
+## Postman Collection
 
-Se incluye una colección completa de Postman con ejemplos detallados en:
+A complete Postman collection with detailed examples is included at:
 `postman/salespad-postman-collection.json`
 
-Puedes importarla directamente en Postman para probar todos los endpoints.
+You can import it directly into Postman to test all endpoints.

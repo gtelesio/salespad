@@ -4,48 +4,47 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-Sistema backend de gestión de Leads y Colas, construido con **NestJS**, siguiendo estrictamente **Domain-Driven Design (DDD)** y **Clean Architecture**.
+Backend system for Leads and Queues management, built with **NestJS**, strictly following **Domain-Driven Design (DDD)** and **Clean Architecture**.
 
-Este proyecto implementa un MVP que soporta el ciclo de vida completo de un lead, desde su creación hasta la interacción automatizada por IA, utilizando procesamiento asíncrono robusto.
+This project implements an MVP supporting the full lead lifecycle, from creation to automated AI interaction, using robust asynchronous processing.
 
-## 📚 Documentación
+## 📚 Documentation
 
-La documentación detallada del proyecto se encuentra organizada en la carpeta `docs/`.
+Detailed project documentation is organized in the `docs/` folder.
 
-### Índices de Documentación
+### Documentation Index
 
-- **[🛠 Guía de Instalación y Configuración](docs/setup.md)**
-  Pasos para levantar el entorno local, base de datos, Redis y ejecutar la aplicación.
+- **[🛠 Setup and Installation Guide](docs/setup.md)**
+  Steps to set up local environment, database, Redis, and run the application.
 
-- **[🏗 Arquitectura del Proyecto](docs/architecture.md)**
-  Explicación detallada de la estructura DDD (Dominio, Aplicación, Infraestructura), decisiones de diseño y flujo de datos.
+- **[🏗 Project Architecture](docs/architecture.md)**
+  Detailed explanation of DDD structure (Domain, Application, Infrastructure), design decisions, and data flow.
 
-- **[🚀 Guía de Uso y API](docs/usage.md)**
-  Referencia de los endpoints disponibles, ejemplos de uso y flujos soportados.
+- **[🚀 Usage Guide & API](docs/usage.md)**
+  Reference for available endpoints, usage examples, and supported flows.
 
 ---
 
-## Características Principales
+## Key Features
 
-- **Arquitectura Limpia:** Separación estricta de responsabilidades.
-- **Base de Datos:** PostgreSQL con TypeORM.
-- **Colas Asíncronas:** BullMQ y Redis para envío de mensajes con reintentos.
-- **Simulación de IA:** Servicio integrado para respuestas automáticas.
-- **Code Quality:** Uso de `Biome` para linting y formatting, Alias de rutas (`@/`).
-- **Tooling:** Scripts de verificación E2E y Colección de Postman incluida.
+- **Clean Architecture:** Strict separation of concerns.
+- **Database:** PostgreSQL with TypeORM.
+- **Async Queues:** BullMQ and Redis for message sending with retries.
+- **AI Simulation:** Integrated service for automated responses.
+- **Code Quality:** `Biome` for linting/formatting, Path Aliases (`@/`).
+- **Tooling:** E2E verification script and Postman Collection included.
 
 ## Quick Start
 
 ```bash
-# 1. Instalar dependencias
+# 1. Install dependencies
 npm install
 
-# 2. Levantar servicios (Docker)
+# 2. Start services (Docker)
 docker-compose up -d
 
-# 3. Iniciar aplicación
+# 3. Start application
 npm run start:dev
 ```
 
-Para más detalles, consulta la [Guía de Instalación](docs/setup.md).
-
+For more details, check the [Setup Guide](docs/setup.md).

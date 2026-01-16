@@ -1,64 +1,64 @@
-# Guía de Instalación y Configuración
+# Setup and Installation Guide
 
-## Prerrequisitos
-- **Node.js** (v18 o superior)
-- **Docker** y **Docker Compose**
+## Prerequisites
+- **Node.js** (v18 or higher)
+- **Docker** and **Docker Compose**
 - **Git**
 
-## Configuración del Entorno
+## Environment Setup
 
-1.  **Clonar el repositorio:**
+1.  **Clone the repository:**
     ```bash
     git clone https://github.com/gtelesio/salespad.git
     cd salespad
     ```
 
-2.  **Instalar dependencias:**
+2.  **Install dependencies:**
     ```bash
     npm install
-    # o
+    # or
     yarn install
     ```
 
-3.  **Configurar Variables de Entorno:**
-    Copia el archivo de ejemplo y ajústalo si es necesario.
+3.  **Configure Environment Variables:**
+    Copy the example file and adjust if necessary.
     ```bash
     cp .env.example .env
     ```
-    *Nota: Por defecto, la aplicación espera que PostgreSQL corra en el puerto 5432 y Redis en el 6379.*
+    *Note: By default, the application expects PostgreSQL on port 5432 and Redis on 6379.*
 
-## Ejecutar Infraestructura (Base de Datos y Redis)
+## Run Infrastructure (Database & Redis)
 
-Utiliza Docker Compose para levantar los servicios necesarios:
+Use Docker Compose to start necessary services:
 
 ```bash
 docker-compose up -d
 ```
-Esto iniciará:
-- **PostgreSQL** (Base de datos `salespad`, usuario `user`, pass `password`)
-- **Redis** (Para colas de mensajes)
+This will start:
+- **PostgreSQL** (Database `salespad`, user `user`, pass `password`)
+- **Redis** (For message queues)
 
-## Ejecutar la Aplicación
+## Run the Application
 
-### Modo Desarrollo
-Con recarga automática (watch mode):
+### Development Mode
+With hot-reload (watch mode):
 ```bash
 npm run start:dev
 ```
 
-### Modo Producción
-Compilación y ejecución optimizada:
+### Production Mode
+Optimized build and execution:
 ```bash
 npm run build
 npm run start:prod
 ```
 
-## Verificación
+## Verification
 
-Para verificar que todo funcione correctamente, puedes ejecutar el script de flujo completo:
+To verify everything is working correctly, you can run the full flow script:
 
 ```bash
 node scripts/verify-flow.js
 ```
 
-Esto simulará la creación de un lead, envío de mensajes y respuestas automáticas.
+This simulates lead creation, sending messages, and automated responses.

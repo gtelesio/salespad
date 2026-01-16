@@ -1,60 +1,60 @@
-# Arquitectura del Proyecto
+# Project Architecture
 
-## Visión General
-Salespad es un sistema backend construido con NestJS siguiendo los principios de **Domain-Driven Design (DDD)** y **Clean Architecture**. El objetivo es mantener un código desacoplado, testable y escalable, donde la lógica de negocio esté aislada de los detalles de infraestructura.
+## Overview
+Salespad is a backend system built with NestJS following **Domain-Driven Design (DDD)** and **Clean Architecture** principles. The goal is to maintain decoupled, testable, and scalable code, where business logic is isolated from infrastructure details.
 
-## Estructura de Directorios
+## Directory Structure
 
-El código fuente se encuentra en `src/` y se organiza por módulos semánticos (`leads`, `common`).
+Source code is located in `src/` and organized by semantic modules (`leads`, `common`).
 
 ```
 src/
-├── leads/                  # Módulo de Leads (Core)
-│   ├── domain/             # Capa de Dominio (Entidades, Interfaces de Repositorio)
-│   ├── application/        # Capa de Aplicación (Casos de Uso, DTOs, Servicios)
-│   ├── infrastructure/     # Capa de Infraestructura (Persistencia, Colas, Adaptadores)
-│   └── presentation/       # Capa de Presentación (Controladores HTTP, DTOs de Entrada)
-├── common/                 # Código compartido (Decoradores, Utilidades)
-├── scripts/                # Scripts de utilidad
+├── leads/                  # Leads Module (Core)
+│   ├── domain/             # Domain Layer (Entities, Repository Interfaces)
+│   ├── application/        # Application Layer (Use Cases, DTOs, Services)
+│   ├── infrastructure/     # Infrastructure Layer (Persistence, Queues, Adapters)
+│   └── presentation/       # Presentation Layer (HTTP Controllers, Input DTOs)
+├── common/                 # Shared Code (Decorators, Utilities)
+├── scripts/                # Utility Scripts
 └── ...
 ```
 
-## Capas de la Arquitectura
+## Architecture Layers
 
-### 1. Dominio (`domain/`)
-Es el corazón de la aplicación. Contiene las reglas de negocio puras y no depende de ninguna otra capa.
-- **Entidades:** Objetos con identidad y ciclo de vida (`Lead`, `Event`).
-- **Interfaces de Repositorio:** Contratos que definen cómo se accede a los datos (`LeadRepository`), implementados en infraestructura.
+### 1. Domain (`domain/`)
+The core of the application. Contains pure business rules and depends on no other layer.
+- **Entities:** Objects with identity and lifecycle (`Lead`, `Event`).
+- **Repository Interfaces:** Contracts defining data access (`LeadRepository`), implemented in infrastructure.
 
-### 2. Aplicación (`application/`)
-Orquesta el flujo de datos entre el dominio y el mundo exterior.
-- **Casos de Uso:** Ejecutan acciones específicas del negocio (ej. `CreateLeadUseCase`, `SendOutboundMessageUseCase`).
-- **DTOs:** Objetos de transferencia de datos internos.
-- **Servicios:** Lógica que no pertenece a una entidad específica o interactúa con sistemas externos (`AiMockService`).
+### 2. Application (`application/`)
+Orchestrates data flow between the domain and the outside world.
+- **Use Cases:** Execute specific business actions (e.g., `CreateLeadUseCase`, `SendOutboundMessageUseCase`).
+- **DTOs:** Internal Data Transfer Objects.
+- **Services:** Logic that doesn't belong to a specific entity or interacts with external systems (`AiMockService`).
 
-### 3. Infraestructura (`infrastructure/`)
-Implementa los detalles técnicos y adaptadores.
-- **Persistencia:** Implementación de repositorios con TypeORM (`TypeOrmLeadRepository`).
-- **Colas:** Procesadores de trabajos en segundo plano (`EmailProcessor` con BullMQ).
-- **Configuración:** Módulos de configuración de base de datos y redis.
+### 3. Infrastructure (`infrastructure/`)
+Implements technical details and adapters.
+- **Persistence:** Repository implementations using TypeORM (`TypeOrmLeadRepository`).
+- **Queues:** Background job processors (`EmailProcessor` with BullMQ).
+- **Configuration:** Database and Redis configuration modules.
 
-### 4. Presentación (`presentation/`)
-Maneja la entrada y salida HTTP.
-- **Controladores:** Reciben peticiones y delegan a los casos de uso (`LeadsController`).
-- **DTOs:** Definen la estructura de los datos recibidos por la API.
+### 4. Presentation (`presentation/`)
+Handles HTTP input and output.
+- **Controllers:** Receive requests and delegate to Use Cases (`LeadsController`).
+- **DTOs:** Define the structure of data received by the API.
 
-## Flujo de Datos
+## Data Flow
 
-1. **Request HTTP** llega a `LeadsController`.
-2. El controlador valida el DTO y llama al **Caso de Uso** correspondiente.
-3. El Caso de Uso interactúa con las **Entidades de Dominio** y el **Repositorio**.
-4. Si es necesario, se emiten eventos o se encolan trabajos (ej. enviar email).
-5. El Repositorio persiste los cambios en **Base de Datos**.
-6. Se retorna una respuesta al cliente.
+1. **HTTP Request** hits `LeadsController`.
+2. Controller validates DTO and calls the corresponding **Use Case**.
+3. Use Case interacts with **Domain Entities** and **Repository**.
+4. If needed, events are emitted or jobs enqueued (e.g., send email).
+5. Repository persists changes to **Database**.
+6. Response is returned to the client.
 
-## Tecnologías Clave
-- **NestJS:** Framework principal.
-- **PostgreSQL:** Base de datos relacional.
-- **TypeORM:** ORM para persistencia.
-- **BullMQ / Redis:** Gestión de colas asíncronas.
-- **Biome:** Linter y Formatter.
+## Key Technologies
+- **NestJS:** Main framework.
+- **PostgreSQL:** Relational database.
+- **TypeORM:** Persistence ORM.
+- **BullMQ / Redis:** Asynchronous queue management.
+- **Biome:** Linter and Formatter.
