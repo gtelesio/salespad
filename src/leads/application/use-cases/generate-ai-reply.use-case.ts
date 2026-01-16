@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Event, EventType } from '@/leads/domain/entities/event.entity';
 import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
-import { AiMockService } from '@/leads/application/services/ai-mock.service';
+import { OpenAiService } from '@/leads/infrastructure/services/openai.service';
 import { SendOutboundMessageUseCase } from './send-outbound-message.use-case';
 
 @Injectable()
 export class GenerateAiReplyUseCase {
   constructor(
     private readonly leadRepository: LeadRepository,
-    private readonly aiMockService: AiMockService,
+    private readonly openAiService: OpenAiService,
     private readonly sendOutboundMessageUseCase: SendOutboundMessageUseCase,
   ) { }
 
@@ -22,10 +22,14 @@ export class GenerateAiReplyUseCase {
       .filter((e) => e.type === EventType.INBOUND)
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())[0];
 
-    const prompt = lastInbound ? lastInbound.content : 'Hello';
+    // Fallback prompt if no previous interaction
+    const prompt = lastInbound ? lastInbound.content : 'User just signed up. Say hello.';
 
     // 2. Generate Reply
-    const replyContent = this.aiMockService.generateReply(prompt);
+    // Wait... if use case is "GenerateAiReply", we probably expect there to be a message to reply TO.
+    // If prompt is empty, maybe handled inside service or here.
+
+    const replyContent = await this.openAiService.generateReply(prompt);
 
     // 3. Log AI Decision (System Log)
     const logEvent = new Event();

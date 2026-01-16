@@ -1,7 +1,8 @@
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AiMockService } from './application/services/ai-mock.service';
+
 import { CreateLeadUseCase } from './application/use-cases/create-lead.use-case';
 import { GenerateAiReplyUseCase } from './application/use-cases/generate-ai-reply.use-case';
 import { GetLeadUseCase } from './application/use-cases/get-lead.use-case';
@@ -11,6 +12,8 @@ import { Event } from './domain/entities/event.entity';
 import { Lead } from './domain/entities/lead.entity';
 import { LeadRepository } from './domain/repositories/lead.repository';
 import { TypeOrmLeadRepository } from './infrastructure/persistence/typeorm-lead.repository';
+import { OpenAiService } from './infrastructure/services/openai.service';
+// ... entities ...
 import { EmailProcessor } from './infrastructure/queues/consumers/email.processor';
 import { LeadsController } from './presentation/http/leads.controller';
 
@@ -20,6 +23,7 @@ import { LeadsController } from './presentation/http/leads.controller';
     BullModule.registerQueue({
       name: 'email-queue',
     }),
+    ConfigModule,
   ],
   controllers: [LeadsController],
   providers: [
@@ -35,9 +39,9 @@ import { LeadsController } from './presentation/http/leads.controller';
     ProcessInboundReplyUseCase,
     GenerateAiReplyUseCase,
     // Services
-    AiMockService,
+    OpenAiService,
     // Consumers
     EmailProcessor,
   ],
 })
-export class LeadsModule {}
+export class LeadsModule { }

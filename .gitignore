@@ -26,3 +26,4 @@ lerna-debug.log*
 *.bak
 package-lock.json.bak
 package.json.bak
+.env
