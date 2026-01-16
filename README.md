@@ -38,13 +38,13 @@ Detailed project documentation is organized in the `docs/` folder.
 
 ```bash
 # 1. Install dependencies
-npm install
+bun install
 
 # 2. Start services (Docker)
 docker-compose up -d
 
 # 3. Start application
-npm run start:dev
+bun run start:dev
 ```
 
 For more details, check the [Setup Guide](docs/setup.md).

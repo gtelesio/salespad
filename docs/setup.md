@@ -15,9 +15,7 @@
 
 2.  **Install dependencies:**
     ```bash
-    npm install
-    # or
-    yarn install
+    bun install
     ```
 
 3.  **Configure Environment Variables:**
@@ -43,14 +41,14 @@ This will start:
 ### Development Mode
 With hot-reload (watch mode):
 ```bash
-npm run start:dev
+bun run start:dev
 ```
 
 ### Production Mode
 Optimized build and execution:
 ```bash
-npm run build
-npm run start:prod
+bun run build
+bun run start:prod
 ```
 
 ## Verification
