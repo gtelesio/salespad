@@ -43,6 +43,32 @@ fi
 echo "📦 Installing project dependencies with Bun..."
 bun install
 
+# 5. Initialize Husky
+echo "🐶 Initializing Husky hooks..."
+bun run prepare || echo "⚠️ Husky initialization failed (non-critical)"
+
+# 6. Check Security Tools
+echo "🛡️  Checking Security Tools..."
+
+# Semgrep
+if ! command -v semgrep &> /dev/null; then
+    echo "⚠️  Semgrep not found. It is recommended for security scans."
+    echo "👉 Install: 'brew install semgrep' or 'pip install semgrep'"
+else
+    echo "✅ Semgrep is installed."
+fi
+
+# Snyk
+if command -v snyk &> /dev/null; then
+    echo "✅ Snyk is available."
+    # Optional: check auth
+    # snyk auth --test &> /dev/null || echo "ℹ️  Run 'snyk auth' to enable detailed scans."
+else
+    echo "📦 Snyk CLI not found (it might be installed effectively via 'bunx snyk')."
+    echo "ℹ️  You can use 'bun run security:snyk' which uses the local dependency."
+fi
+
+
 echo ""
 echo "🎉 Environment setup complete!"
 echo "To start the project:"
