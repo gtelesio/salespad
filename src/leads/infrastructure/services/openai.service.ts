@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+// biome-ignore lint/style/useImportType: NestJS needs these as values for DI
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

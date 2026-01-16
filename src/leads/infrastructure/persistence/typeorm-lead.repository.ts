@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
+// biome-ignore lint/style/useImportType: NestJS needs these as values for DI
 import { DataSource, Repository } from 'typeorm';
 import { Event } from '@/leads/domain/entities/event.entity';
 import { Lead, type LeadStatus } from '@/leads/domain/entities/lead.entity';
-import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
+import type { LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
 @Injectable()
 export class TypeOrmLeadRepository implements LeadRepository {

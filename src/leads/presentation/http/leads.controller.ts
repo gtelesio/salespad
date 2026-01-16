@@ -1,13 +1,18 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+// biome-ignore lint/style/useImportType: NestJS needs these as values for DI
 import { CreateLeadUseCase } from '@/leads/application/use-cases/create-lead.use-case';
+// biome-ignore lint/style/useImportType: NestJS needs these as values for DI
 import { GenerateAiReplyUseCase } from '@/leads/application/use-cases/generate-ai-reply.use-case';
+// biome-ignore lint/style/useImportType: NestJS needs these as values for DI
 import { GetLeadUseCase } from '@/leads/application/use-cases/get-lead.use-case';
+// biome-ignore lint/style/useImportType: NestJS needs these as values for DI
 import { ProcessInboundReplyUseCase } from '@/leads/application/use-cases/process-inbound-reply.use-case';
+// biome-ignore lint/style/useImportType: NestJS needs these as values for DI
 import { SendOutboundMessageUseCase } from '@/leads/application/use-cases/send-outbound-message.use-case';
-import { AiReplyRequestDto } from '@/leads/presentation/dtos/ai-reply-request.dto';
-import { CreateLeadRequestDto } from '@/leads/presentation/dtos/create-lead-request.dto';
-import { ReplyRequestDto } from '@/leads/presentation/dtos/reply-request.dto';
-import { SendMessageRequestDto } from '@/leads/presentation/dtos/send-message-request.dto';
+import type { AiReplyRequestDto } from '@/leads/presentation/dtos/ai-reply-request.dto';
+import type { CreateLeadRequestDto } from '@/leads/presentation/dtos/create-lead-request.dto';
+import type { ReplyRequestDto } from '@/leads/presentation/dtos/reply-request.dto';
+import type { SendMessageRequestDto } from '@/leads/presentation/dtos/send-message-request.dto';
 
 @Controller('leads')
 export class LeadsController {
@@ -21,7 +26,7 @@ export class LeadsController {
 
   @Post()
   async create(@Body() body: CreateLeadRequestDto) {
-    return this.createLeadUseCase.execute(body.name, body.contactInfo);
+    return this.createLeadUseCase.execute(body.name, body.contactInfo, body.channel);
   }
 
   @Post('send')

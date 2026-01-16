@@ -58,10 +58,10 @@ describe('LeadsController', () => {
 
     describe('create', () => {
         it('should create a lead', async () => {
-            const dto = { name: 'Test', contactInfo: 'test@test.com' };
+            const dto: any = { name: 'Test', contactInfo: 'test@test.com', channel: 'whatsapp' };
             const result = await controller.create(dto);
             expect(result).toEqual(mockLead);
-            expect(createLeadUseCase.execute).toHaveBeenCalledWith(dto.name, dto.contactInfo);
+            expect(createLeadUseCase.execute).toHaveBeenCalledWith(dto.name, dto.contactInfo, dto.channel);
         });
     });
 

@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Channel } from '@/leads/domain/entities/lead.entity';
 
 export class CreateLeadRequestDto {
   @IsString()
@@ -6,7 +7,10 @@ export class CreateLeadRequestDto {
   name: string;
 
   @IsString()
-  @IsEmail()
   @IsNotEmpty()
   contactInfo: string;
+
+  @IsEnum(Channel)
+  @IsOptional()
+  channel?: Channel;
 }
