@@ -8,9 +8,11 @@ CONTENT_TYPE="Content-Type: application/json"
 
 echo "🚀 Starting E2E Verification Flow..."
 
-# Helper function to extract JSON value
+# Helper function to extract JSON values more reliably (simple parsing)
 get_json_value() {
-    cat | grep -o "\"$1\":\"[^\"]*\"" | cut -d':' -f2 | tr -d '"'
+    # Extract "key":"value" pairs, then filter for the specific key requested.
+    # We use sed to handle potential spacing and nested structures slightly better than simple grep.
+    echo "$1" | grep -o "\"$2\":\"[^\"]*\"" | head -n 1 | cut -d':' -f2 | tr -d '"'
 }
 
 # 1. Create Lead
@@ -23,15 +25,19 @@ RESPONSE=$(curl -s -X POST "$BASE_URL/leads" \
   -H "$CONTENT_TYPE" \
   -d "{\"name\": \"Test User\", \"contactInfo\": \"$EMAIL\"}")
 
-LEAD_ID=$(echo "$RESPONSE" | get_json_value "id")
-STATUS=$(echo "$RESPONSE" | get_json_value "status")
+echo "Response Body: $RESPONSE"
 
-echo "Created Lead Response: $RESPONSE"
+# Parse Standardized Response
+CORRELATION_ID=$(get_json_value "$RESPONSE" "correlationId")
+LEAD_ID=$(get_json_value "$RESPONSE" "id")
+STATUS=$(get_json_value "$RESPONSE" "status")
+
+echo "Correlation ID: $CORRELATION_ID"
 echo "Lead ID: $LEAD_ID"
 echo "Status: $STATUS"
 
-if [ -z "$LEAD_ID" ]; then
-    echo "❌ Failed to create lead."
+if [ -z "$LEAD_ID" ] || [ -z "$CORRELATION_ID" ]; then
+    echo "❌ Failed to create lead or missing Correlation ID."
     exit 1
 fi
 
@@ -51,10 +57,9 @@ sleep 3
 echo "--------------------------------------------------"
 echo "3. Verifying Contacted Status & Events..."
 LEAD_CHECK=$(curl -s -X GET "$BASE_URL/leads/$LEAD_ID")
-CURRENT_STATUS=$(echo "$LEAD_CHECK" | get_json_value "status")
+CURRENT_STATUS=$(get_json_value "$LEAD_CHECK" "status")
 
 echo "Current Status: $CURRENT_STATUS"
-# Simple grep to check for events existence
 if echo "$LEAD_CHECK" | grep -q "outbound"; then
     echo "✅ Outbound event found."
 else
@@ -86,7 +91,7 @@ sleep 3
 echo "--------------------------------------------------"
 echo "6. Final History Check..."
 FINAL_LEAD=$(curl -s -X GET "$BASE_URL/leads/$LEAD_ID")
-FINAL_STATUS=$(echo "$FINAL_LEAD" | get_json_value "status")
+FINAL_STATUS=$(get_json_value "$FINAL_LEAD" "status")
 
 echo "Final Status: $FINAL_STATUS"
 echo "Full Lead Data: $FINAL_LEAD"
