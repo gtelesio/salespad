@@ -13,17 +13,13 @@
     cd salespad
     ```
 
-2.  **Install dependencies:**
+2.  **Run Setup Script (Recommended):**
+    This script will install Bun, check Docker, and setup `.env` automatically.
     ```bash
-    bun install
+    ./scripts/setup-env.sh
     ```
 
-3.  **Configure Environment Variables:**
-    Copy the example file and adjust if necessary.
-    ```bash
-    cp .env.example .env
-    ```
-    *Note: By default, the application expects PostgreSQL on port 5432 and Redis on 6379.*
+    *Alternatively, you can manually install dependencies with `bun install` and configure `.env`.*
 
 ## Run Infrastructure (Database & Redis)
 

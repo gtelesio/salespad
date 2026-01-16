@@ -37,8 +37,8 @@ Detailed project documentation is organized in the `docs/` folder.
 ## Quick Start
 
 ```bash
-# 1. Install dependencies
-bun install
+# 1. Automatic Setup (Recommended)
+./scripts/setup-env.sh
 
 # 2. Start services (Docker)
 docker-compose up -d
