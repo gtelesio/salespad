@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "👮‍♂️ Verifying Commit Message Format..."
+bunx commitlint --edit "$1"
