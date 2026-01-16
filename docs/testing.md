@@ -37,6 +37,7 @@ Enforces **Conventional Commits** standard using `commitlint`.
 We integrate static analysis tools to detect vulnerabilities early.
 
 ### Semgrep
+*   **Prerequisite**: Install globally via `brew install semgrep` or `pip install semgrep`.
 *   **Command**: `bun run security:semgrep`
 *   **Trigger**: Runs on `pre-push` and in CI.
 *   **Config**: Uses standard ruleset (`--config=auto`).

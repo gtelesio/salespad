@@ -1,21 +1,22 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "🛡️  Running Security Scans (Pre-Push)..."
 
 # 1. Semgrep SAST
-echo "🔍 Running Semgrep (SAST)..."
-npm run security:semgrep
-if [ $? -ne 0 ]; then
-  echo "❌ Semgrep found security issues! Please fix them before pushing."
-  exit 1
+if command -v semgrep >/dev/null 2>&1; then
+  echo "🔍 Running Semgrep (SAST)..."
+  bun run security:semgrep
+  if [ $? -ne 0 ]; then
+    echo "❌ Semgrep found security issues! Please fix them before pushing."
+    exit 1
+  fi
+else
+  echo "⚠️  Semgrep not found in PATH. Skipping SAST scan. (Install via 'brew install semgrep')"
 fi
 
 # 2. Snyk Code SAST
 # Check if user is authenticated with Snyk
-if npx snyk auth --test >/dev/null 2>&1 || [ -n "$SNYK_TOKEN" ]; then
+if bunx snyk auth --test >/dev/null 2>&1 || [ -n "$SNYK_TOKEN" ]; then
     echo "🐶 Running Snyk Code..."
-    npm run security:snyk
+    bun run security:snyk
     if [ $? -ne 0 ]; then
       echo "❌ Snyk found critical vulnerabilities! Please fix them before pushing."
       exit 1

@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "prepare": "husky",
     "security:semgrep": "semgrep scan --config=auto ./src",
-    "security:snyk": "snyk code test"
+    "security:snyk": "bunx snyk code test"
   },
   "dependencies": {
     "@nestjs/bullmq": "^11.0.4",
