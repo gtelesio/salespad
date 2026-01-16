@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🛡️  Running Security Scans (Pre-Push)..."
+
+# 1. Semgrep SAST
+echo "🔍 Running Semgrep (SAST)..."
+npm run security:semgrep
+if [ $? -ne 0 ]; then
+  echo "❌ Semgrep found security issues! Please fix them before pushing."
+  exit 1
+fi
+
+# 2. Snyk Code SAST
+# Check if user is authenticated with Snyk
+if npx snyk auth --test >/dev/null 2>&1 || [ -n "$SNYK_TOKEN" ]; then
+    echo "🐶 Running Snyk Code..."
+    npm run security:snyk
+    if [ $? -ne 0 ]; then
+      echo "❌ Snyk found critical vulnerabilities! Please fix them before pushing."
+      exit 1
+    fi
+else
+    echo "⚠️  Snyk is not authenticated. Skipping Snyk scan. (Run 'snyk auth' to enable)"
+fi
+
+echo "✅ Security checks passed!"

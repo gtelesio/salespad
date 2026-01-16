@@ -19,7 +19,11 @@ The pipeline triggers automatically on every push to the `main` branch and on Pu
 4.  **Testing**
     *   Runs `bun run test:cov` to execute all unit tests and verify coverage meets the 20% threshold.
 
-5.  **Build Verification**
+5.  **Security Scans**
+    *   **Semgrep**: Scans source code for security patterns.
+    *   **Snyk Code**: Performs deep static analysis (requires `SNYK_TOKEN` secret).
+
+6.  **Build Verification**
     *   Runs `bun run build` (via Nest CLI) to compile the application and ensure there are no build errors.
 
 ## Configuration

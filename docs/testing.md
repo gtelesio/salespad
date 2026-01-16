@@ -31,4 +31,18 @@ Enforces **Conventional Commits** standard using `commitlint`.
 *   **Examples**:
     *   `feat: add new lead`
     *   `fix: resolve circular dependency`
-    *   `docs: update readme`
+    *   `docs: update README`
+
+## Security Scanning (SAST)
+We integrate static analysis tools to detect vulnerabilities early.
+
+### Semgrep
+*   **Command**: `bun run security:semgrep`
+*   **Trigger**: Runs on `pre-push` and in CI.
+*   **Config**: Uses standard ruleset (`--config=auto`).
+
+### Snyk Code
+*   **Command**: `bun run security:snyk`
+*   **Trigger**: Runs on `pre-push` (if authenticated) and in CI.
+*   **Auth**: Requires `snyk auth` locally and `SNYK_TOKEN` in CI.
+
