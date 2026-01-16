@@ -1,0 +1,159 @@
+{
+    "info": {
+        "_postman_id": "b920909c-e9de-4217-bfb2-07aa29becbd9",
+        "name": "Salespad API",
+        "description": "Collection for Salespad Leads & Queues MVP.\nIncludes examples for creating leads, sending messages, handling replies, and triggering AI responses.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Leads",
+            "item": [
+                {
+                    "name": "Create Lead",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"John Doe\",\n    \"contactInfo\": \"john.doe@example.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/leads",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "leads"
+                            ]
+                        },
+                        "description": "Creates a new lead in the system with status NEW and logs a CREATED event."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Lead",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/leads/:id",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "leads",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "LEAD_UUID_HERE",
+                                    "description": "UUID of the lead to retrieve"
+                                }
+                            ]
+                        },
+                        "description": "Retrieves a lead by ID, including its full event history."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send Outbound Message",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"leadId\": \"LEAD_UUID_HERE\",\n    \"message\": \"Hello, this is a follow-up message.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/leads/send",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "leads",
+                                "send"
+                            ]
+                        },
+                        "description": "Sends an email to the lead (via BullMQ) and updates status to CONTACTED. Logs an OUTBOUND event."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Process Inbound Reply",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"leadId\": \"LEAD_UUID_HERE\",\n    \"content\": \"I am interested, please tell me more.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/leads/reply",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "leads",
+                                "reply"
+                            ]
+                        },
+                        "description": "Simulates receiving a reply from the lead. Updates status to REPLIED and logs an INBOUND event."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Generate AI Reply",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"leadId\": \"LEAD_UUID_HERE\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/leads/ai-reply",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "leads",
+                                "ai-reply"
+                            ]
+                        },
+                        "description": "Triggers the AI service to analyze the last message and send an automated response. Logs a SYSTEM_LOG and then calls SendOutboundMessage."
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000",
+            "type": "string"
+        }
+    ]
+}
