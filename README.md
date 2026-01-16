@@ -1,54 +1,73 @@
-# Salespad API
+# 🚀 SalesPad API
 
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
+**SalesPad** is a robust backend system designed for high-performance Lead and Queue management. Built with **NestJS**, it strictly adheres to **Domain-Driven Design (DDD)** and **Clean Architecture** principles to ensure scalability, maintainability, and reliability.
 
-Backend system for Leads and Queues management, built with **NestJS**, strictly following **Domain-Driven Design (DDD)** and **Clean Architecture**.
-
-This project implements an MVP supporting the full lead lifecycle, from creation to automated AI interaction, using robust asynchronous processing.
-
-## 📚 Documentation
-
-Detailed project documentation is organized in the `docs/` folder.
-
-### Documentation Index
-
-- **[🛠 Setup and Installation Guide](docs/setup.md)**
-  Steps to set up local environment, database, Redis, and run the application.
-
-- **[🏗 Project Architecture](docs/architecture.md)**
-  Detailed explanation of DDD structure (Domain, Application, Infrastructure), design decisions, and data flow.
-
-- **[🚀 Usage Guide & API](docs/usage.md)**
-  Reference for available endpoints, usage examples, and supported flows.
+This project implements an MVP supporting the full lead lifecycle, from creation to automated AI interactions, utilizing a resilient asynchronous messaging architecture.
 
 ---
 
-## Key Features
+## ✨ Key Features
 
-- **Clean Architecture:** Strict separation of concerns.
-- **Database:** PostgreSQL with TypeORM.
-- **Async Queues:** BullMQ and Redis for message sending with retries.
-- **AI Simulation:** Integrated service for automated responses.
-- **Code Quality:** `Biome` for linting/formatting, Path Aliases (`@/`).
-- **Tooling:** E2E verification script and Postman Collection included.
+*   **Modular Monolith Architecture**: Strict separation of concerns (Domain, Application, Infrastructure) using DDD.
+*   **Reliable Async Processing**: Uses **BullMQ** and **Redis** to ensure no messages are lost, with automatic retries and failure handling.
+*   **Dual-Storage Strategy**: **PostgreSQL** (TypeORM) for ACID compliance and **Redis** for ephemeral job data and caching.
+*   **AI Integration**: Built-in architecture for AI-powered automated responses.
+*   **Code Quality**: Enforced via **Biome** and strict typing.
+*   **DevOps Ready**: Includes Docker Compose setup and E2E verification scripts.
 
-## Quick Start
+---
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+*   **[🛠 Setup & Installation](docs/setup.md)**: Guide to getting the environment up and running.
+*   **[🏗 System Architecture](docs/architecture.md)**: Deep dive into the DDD structure, data flow, queue reliability strategies, and system diagrams.
+*   **[🚀 API Usage](docs/usage.md)**: Reference for endpoints and usage examples.
+
+---
+
+## ⚡ Quick Start
+
+### Prerequisites
+*   Docker & Docker Compose
+*   Node.js (or Bun)
+
+### Installation
 
 ```bash
-# 1. Automatic Setup (Recommended)
+# 1. Automated Setup (Recommended)
 ./scripts/setup-env.sh
 
-# 2. Start services (Docker)
+# 2. Start Infrastructure (DB + Redis)
 docker-compose up -d
 
-# 3. Start application
+# 3. Run the Application
 bun run start:dev
 ```
 
-## Verification Service
+### verification
+
+Run the included end-to-end flow verification script:
 
 ```bash
 ./scripts/verify-flow.sh
 ```
 
-For more details, check the [Setup Guide](docs/setup.md).
+---
+
+## 👨‍💻 Author
+
+Developed with ❤️ by **Gonzalo Patricio Telesio**.
+
+---
+
+## 📄 License
+
+This project is private and proprietary.
