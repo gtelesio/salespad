@@ -13,8 +13,9 @@ else
 fi
 
 # 2. Snyk Code SAST
-# Check if user is authenticated with Snyk
-if bunx snyk auth --test >/dev/null 2>&1 || [ -n "$SNYK_TOKEN" ]; then
+# Check if user is authenticated with Snyk (token exists in config or env)
+SNYK_API_CONFIG=$(bunx snyk config get api 2>/dev/null || echo "")
+if [ -n "$SNYK_TOKEN" ] || [ -n "$SNYK_API_CONFIG" ]; then
     echo "🐶 Running Snyk Code..."
     bun run security:snyk
     if [ $? -ne 0 ]; then
