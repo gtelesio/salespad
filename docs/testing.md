@@ -34,16 +34,21 @@ Enforces **Conventional Commits** standard using `commitlint`.
     *   `docs: update README`
 
 ## Security Scanning (SAST)
-We integrate static analysis tools to detect vulnerabilities early.
+We integrate static analysis tools to detect vulnerabilities early in the development lifecycle.
 
-### Semgrep
-*   **Prerequisite**: Install globally via `brew install semgrep` or `pip install semgrep`.
-*   **Command**: `bun run security:semgrep`
-*   **Trigger**: Runs on `pre-push` and in CI.
-*   **Config**: Uses standard ruleset (`--config=auto`).
+### 🔍 Semgrep
+**Semgrep** (Static Analysis for Security Code) scans your code for security patterns and bad practices.
 
-### Snyk Code
-*   **Command**: `bun run security:snyk`
-*   **Trigger**: Runs on `pre-push` (if authenticated) and in CI.
-*   **Auth**: Requires `snyk auth` locally and `SNYK_TOKEN` in CI.
+*   **Installation**: `brew install semgrep` (Global)
+*   **Run Locally**: `bun run security:semgrep`
+*   **Pipeline**: Runs on `pre-push` (if installed) and in CI/CD.
+*   **Rules**: Uses the default "auto" config, which includes OWASP Top 10 and security best practices for TypeScript/NestJS.
+
+### 🐶 Snyk Code
+**Snyk Code** provides deep static analysis to find security flaws in your code.
+
+*   **Authentication**: Run `bunx snyk auth` to link your local environment.
+*   **Run Locally**: `bun run security:snyk`
+*   **Pipeline**: Runs on `pre-push` (if authenticated) and in CI/CD (requires `SNYK_TOKEN`).
+*   **Scope**: Checks for vulnerabilities like SQL Injection, XSS, Hardcoded Secrets, etc.
 

@@ -20,6 +20,22 @@
     ```
 
     *Alternatively, you can manually install dependencies with `bun install` and configure `.env`.*
+    
+3. **Install Security Tools (Optional but Recommended)**
+    To run local security scans (`pre-push` hooks), install Semgrep globally:
+    ```bash
+    # MacOS (Homebrew)
+    brew install semgrep
+
+    # Or via pip
+    pip install semgrep
+    ```
+    
+    For Snyk integration:
+    ```bash
+    # Authenticate Snyk locally
+    bunx snyk auth
+    ```
 
 ## Run Application (Full Stack via Docker)
 

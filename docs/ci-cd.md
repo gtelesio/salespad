@@ -20,8 +20,8 @@ The pipeline triggers automatically on every push to the `main` branch and on Pu
     *   Runs `bun run test:cov` to execute all unit tests and verify coverage meets the 20% threshold.
 
 5.  **Security Scans**
-    *   **Semgrep**: Scans source code for security patterns.
-    *   **Snyk Code**: Performs deep static analysis (requires `SNYK_TOKEN` secret).
+    *   **Semgrep**: Scans source code using `auto` config. Installs via `pip` in CI environment.
+    *   **Snyk Code**: Deep static analysis. Runs only if `SNYK_TOKEN` repository secret is present.
 
 6.  **Build Verification**
     *   Runs `bun run build` (via Nest CLI) to compile the application and ensure there are no build errors.
