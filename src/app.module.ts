@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LeadsModule } from './leads/leads.module';
-import { UsersModule } from './users/users.module';
+
 
 @Module({
   imports: [
@@ -26,10 +26,10 @@ import { UsersModule } from './users/users.module';
         port: parseInt(process.env.REDIS_PORT || '6379', 10),
       },
     }),
-    UsersModule,
+
     LeadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
