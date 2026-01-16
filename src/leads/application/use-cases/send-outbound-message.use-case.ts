@@ -1,16 +1,16 @@
 import { InjectQueue } from '@nestjs/bullmq';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { Queue } from 'bullmq';
 import type { MessageJobData } from '@/leads/application/interfaces/message-job.interface';
 import { Event, EventType } from '@/leads/domain/entities/event.entity';
-import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
+import { LEAD_REPOSITORY, type LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
 @Injectable()
 export class SendOutboundMessageUseCase {
   constructor(
-    private readonly leadRepository: LeadRepository,
+    @Inject(LEAD_REPOSITORY) private readonly leadRepository: LeadRepository,
     @InjectQueue('message-queue') private readonly messageQueue: Queue,
-  ) { }
+  ) {}
 
   async execute(leadId: string, message: string): Promise<void> {
     const lead = await this.leadRepository.findById(leadId);

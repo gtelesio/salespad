@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Lead } from './lead.entity';
+import type { Lead } from './lead.entity';
 
 export enum EventType {
   CREATED = 'created',
@@ -34,8 +34,8 @@ export class Event {
   timestamp: Date;
 
   @ManyToOne(
-    () => Lead,
-    (lead) => lead.events,
+    () => require('./lead.entity').Lead,
+    (lead: Lead) => lead.events,
   )
   @JoinColumn({ name: 'lead_id' })
   lead: Lead;

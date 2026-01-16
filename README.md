@@ -64,7 +64,8 @@ Run the included end-to-end flow verification script:
 
 ## 👨‍💻 Author
 
-Developed with ❤️ by **Gonzalo Patricio Telesio**.
+Developed by **Gonzalo Patricio Telesio**.
+[LinkedIn Profile](https://www.linkedin.com/in/gonzalo-telesio-658791173/)
 
 ---
 

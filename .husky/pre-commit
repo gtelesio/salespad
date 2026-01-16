@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🚧 Running quality check pipeline..."
+
+echo "1️⃣  Running Linter & Formatter Check (Biome)..."
+bunx biome ci ./src
+if [ $? -ne 0 ]; then
+  echo "❌ Linting/Formatting failed! Please fix errors before committing."
+  exit 1
+fi
+
+echo "2️⃣  Running Unit Tests..."
+bun run test:cov
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed! Please fix tests before committing."
+  exit 1
+fi
+
+echo "✅ Quality check passed! Committing changes..."

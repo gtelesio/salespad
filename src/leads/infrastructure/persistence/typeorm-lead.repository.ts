@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { Event } from '@/leads/domain/entities/event.entity';
 import { Lead, type LeadStatus } from '@/leads/domain/entities/lead.entity';
-import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
+import type { LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
 @Injectable()
 export class TypeOrmLeadRepository implements LeadRepository {
@@ -12,7 +12,7 @@ export class TypeOrmLeadRepository implements LeadRepository {
     private readonly leadRepo: Repository<Lead>,
     @InjectRepository(Event)
     private readonly eventRepo: Repository<Event>,
-  ) { }
+  ) {}
 
   async save(lead: Lead): Promise<Lead> {
     return this.leadRepo.save(lead);

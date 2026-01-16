@@ -1,16 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Event, EventType } from '@/leads/domain/entities/event.entity';
-import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
+import { LEAD_REPOSITORY, type LeadRepository } from '@/leads/domain/repositories/lead.repository';
 import { OpenAiService } from '@/leads/infrastructure/services/openai.service';
 import { SendOutboundMessageUseCase } from './send-outbound-message.use-case';
 
 @Injectable()
 export class GenerateAiReplyUseCase {
   constructor(
-    private readonly leadRepository: LeadRepository,
-    private readonly openAiService: OpenAiService,
+    @Inject(LEAD_REPOSITORY) private readonly leadRepository: LeadRepository,
+    @Inject(OpenAiService) private readonly openAiService: OpenAiService,
+    @Inject(SendOutboundMessageUseCase)
     private readonly sendOutboundMessageUseCase: SendOutboundMessageUseCase,
-  ) { }
+  ) {}
 
   async execute(leadId: string): Promise<string> {
     const lead = await this.leadRepository.findById(leadId);

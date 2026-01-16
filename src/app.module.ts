@@ -1,12 +1,11 @@
 import { BullModule } from '@nestjs/bullmq';
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { CorrelationIdMiddleware } from './common/middlewares/correlation-id.middleware';
+import { type MiddlewareConsumer, Module, type NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CorrelationIdMiddleware } from './common/middlewares/correlation-id.middleware';
 import { LeadsModule } from './leads/leads.module';
-
 
 @Module({
   imports: [
@@ -18,7 +17,7 @@ import { LeadsModule } from './leads/leads.module';
       username: process.env.DB_USER || 'user',
       password: process.env.DB_PASSWORD || 'password',
       database: process.env.DB_NAME || 'salespad',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [`${__dirname}/**/*.entity{.ts,.js}`],
       synchronize: true, // DEV ONLY
     }),
     BullModule.forRoot({

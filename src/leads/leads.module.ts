@@ -10,11 +10,10 @@ import { ProcessInboundReplyUseCase } from './application/use-cases/process-inbo
 import { SendOutboundMessageUseCase } from './application/use-cases/send-outbound-message.use-case';
 import { Event } from './domain/entities/event.entity';
 import { Lead } from './domain/entities/lead.entity';
-import { LeadRepository } from './domain/repositories/lead.repository';
+import { LEAD_REPOSITORY } from './domain/repositories/lead.repository';
 import { TypeOrmLeadRepository } from './infrastructure/persistence/typeorm-lead.repository';
-import { OpenAiService } from './infrastructure/services/openai.service';
-// ... entities ...
 import { MessageProcessor } from './infrastructure/queues/consumers/message.processor';
+import { OpenAiService } from './infrastructure/services/openai.service';
 import { LeadsController } from './presentation/http/leads.controller';
 
 @Module({
@@ -29,7 +28,7 @@ import { LeadsController } from './presentation/http/leads.controller';
   providers: [
     // Repositories
     {
-      provide: LeadRepository,
+      provide: LEAD_REPOSITORY,
       useClass: TypeOrmLeadRepository,
     },
     // Use Cases
@@ -44,4 +43,4 @@ import { LeadsController } from './presentation/http/leads.controller';
     MessageProcessor,
   ],
 })
-export class LeadsModule { }
+export class LeadsModule {}

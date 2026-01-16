@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "prepare": "husky"
   },
   "dependencies": {
     "@nestjs/bullmq": "^11.0.4",
@@ -48,6 +48,7 @@
     "@types/supertest": "^6.0.2",
     "@types/uuid": "^10.0.0",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "jest": "^30.0.0",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
@@ -64,16 +65,37 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/test"
+    ],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "src/**/*.(t|j)s",
+      "!**/*.module.ts",
+      "!**/*.dto.ts",
+      "!**/*.entity.ts",
+      "!**/*.interface.ts",
+      "!**/main.ts",
+      "!**/index.ts"
     ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "coverageThreshold": {
+      "global": {
+        "branches": 20,
+        "functions": 20,
+        "lines": 20,
+        "statements": 20
+      }
+    }
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

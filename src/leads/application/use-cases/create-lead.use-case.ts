@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Event, EventType } from '@/leads/domain/entities/event.entity';
 import { Lead } from '@/leads/domain/entities/lead.entity';
-import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
+import { LEAD_REPOSITORY, type LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
 @Injectable()
 export class CreateLeadUseCase {
-  constructor(private readonly leadRepository: LeadRepository) { }
+  constructor(@Inject(LEAD_REPOSITORY) private readonly leadRepository: LeadRepository) {}
 
   async execute(name: string, contactInfo: string): Promise<Lead> {
     const lead = new Lead();

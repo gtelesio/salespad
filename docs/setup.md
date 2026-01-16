@@ -21,16 +21,34 @@
 
     *Alternatively, you can manually install dependencies with `bun install` and configure `.env`.*
 
-## Run Infrastructure (Database & Redis)
+## Run Application (Full Stack via Docker)
 
-Use Docker Compose to start necessary services:
+The easiest way to run the entire application (API + DB + Redis) is with Docker Compose.
 
 ```bash
-docker-compose up -d
+docker-compose up --build -d
 ```
+
 This will start:
-- **PostgreSQL** (Database `salespad`, user `user`, pass `password`)
+- **API Server** on `http://localhost:3000`
+- **PostgreSQL** (Database `salespad`)
 - **Redis** (For message queues)
+
+## Run Locally (Development)
+
+If you prefer to run the API locally (e.g., for debugging) while keeping DB/Redis in Docker:
+
+1.  **Start Infrastructure Only:**
+    *Comment out the `api` service in `docker-compose.yml` temporarily or use a separate compose file.* 
+    OR, if you just want to spin up dependencies:
+    ```bash
+    docker-compose up -d postgres redis
+    ```
+
+2.  **Run API:**
+    ```bash
+    bun run start:dev
+    ```
 
 ## Run the Application
 

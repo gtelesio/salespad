@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Event } from './event.entity';
+import type { Event } from './event.entity';
 
 export enum LeadStatus {
   NEW = 'new',
@@ -43,8 +43,8 @@ export class Lead {
   createdAt: Date;
 
   @OneToMany(
-    () => Event,
-    (event) => event.lead,
+    () => require('./event.entity').Event,
+    (event: Event) => event.lead,
   )
   events: Event[];
 
