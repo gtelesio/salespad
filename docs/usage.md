@@ -1,12 +1,54 @@
 # Usage Guide & API
 
-This guide details how to interact with the Salespad API endpoints.
+This guide details how to interact with the Salespad API.
+
+**Base URL:** `http://localhost:3000/api/v1`
+**Root Metadata:** `http://localhost:3000/`
+
+## Response Format
+
+All API responses follow a standardized JSON structure:
+
+```json
+{
+  "correlationId": "3b64f4b2-5d6d-4c41-9dbe-7d2d6cfb6d54",
+  "data": { ... }, // The actual resource or result
+  "meta": {
+    "timestamp": "2026-01-16T12:00:00.000Z"
+  }
+}
+```
+
+In case of success, the result is in `data`. In case of error, the response follows RFC 7807 Problem Details.
+
+---
+
+## Root Endpoint
+
+### Get API Metadata
+Retrieves version and environment information.
+- **Endpoint:** `GET http://localhost:3000/`
+- **Result:**
+  ```json
+  {
+    "data": {
+      "name": "Salespad API",
+      "version": "1.0.0",
+      ...
+    },
+    "links": { ... }
+  }
+  ```
+
+---
 
 ## Resource: Leads
 
+All lead-related endpoints are versioned under `/api/v1/leads`.
+
 ### 1. Create a Lead
 Creates a new prospect in the system.
-- **Endpoint:** `POST /leads`
+- **Endpoint:** `POST /api/v1/leads`
 - **Body:**
   ```json
   {
@@ -14,16 +56,27 @@ Creates a new prospect in the system.
     "contactInfo": "john@example.com"
   }
   ```
-- **Result:** Creates lead with `NEW` status and logs `CREATED` event.
+- **Result:**
+  ```json
+  {
+    "correlationId": "...",
+    "data": {
+      "id": "uuid",
+      "status": "new",
+      ...
+    },
+    "meta": { ... }
+  }
+  ```
 
 ### 2. Get a Lead
 Retrieves lead information, including full event history.
-- **Endpoint:** `GET /leads/:id`
-- **Result:** Complete Lead object with `events` array.
+- **Endpoint:** `GET /api/v1/leads/:id`
+- **Result:** Complete Lead object with `events` array, wrapped in standard response.
 
 ### 3. Send Outbound Message
 Sends an email to the lead and updates status.
-- **Endpoint:** `POST /leads/send`
+- **Endpoint:** `POST /api/v1/leads/send`
 - **Body:**
   ```json
   {
@@ -32,13 +85,15 @@ Sends an email to the lead and updates status.
   }
   ```
 - **Result:**
-  - Updates status to `CONTACTED`.
-  - Logs `OUTBOUND` event.
-  - Enqueues job in BullMQ to actually send email (simulated with delay).
+  ```json
+  {
+    "data": { "status": "queued" }
+  }
+  ```
 
 ### 4. Process Inbound Reply
 Registers that the lead has replied.
-- **Endpoint:** `POST /leads/reply`
+- **Endpoint:** `POST /api/v1/leads/reply`
 - **Body:**
   ```json
   {
@@ -46,13 +101,11 @@ Registers that the lead has replied.
     "content": "I am interested, thanks."
   }
   ```
-- **Result:**
-  - Updates status to `REPLIED`.
-  - Logs `INBOUND` event.
+- **Result:** `{ "data": { "status": "processed" } }`
 
 ### 5. Generate AI Reply
 Triggers AI service to analyze conversation and auto-respond.
-- **Endpoint:** `POST /leads/ai-reply`
+- **Endpoint:** `POST /api/v1/leads/ai-reply`
 - **Body:**
   ```json
   {
@@ -60,10 +113,14 @@ Triggers AI service to analyze conversation and auto-respond.
   }
   ```
 - **Result:**
-  - Analyzes last message (Mock AI).
-  - Generates a response.
-  - Logs `SYSTEM_LOG` event.
-  - Sends response using Outbound Message flow.
+  ```json
+  {
+    "data": {
+      "status": "generated",
+      "reply": "AI generated response..."
+    }
+  }
+  ```
 
 ---
 

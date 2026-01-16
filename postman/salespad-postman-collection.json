@@ -2,10 +2,28 @@
     "info": {
         "_postman_id": "b920909c-e9de-4217-bfb2-07aa29becbd9",
         "name": "Salespad API",
-        "description": "Collection for Salespad Leads & Queues MVP.\nIncludes examples for creating leads, sending messages, handling replies, and triggering AI responses.",
+        "description": "Collection for Salespad Leads & Queues MVP.\nIncludes examples for creating leads, sending messages, handling replies, and triggering AI responses.\n\nAPI Version: v1\nBase URL: http://localhost:3000/api/v1",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
+        {
+            "name": "Get Root Metadata",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        ""
+                    ]
+                },
+                "description": "Retrieves API metadata, version, and links."
+            },
+            "response": []
+        },
         {
             "name": "Leads",
             "item": [
@@ -24,11 +42,13 @@
                             "raw": "{\n    \"name\": \"John Doe\",\n    \"contactInfo\": \"john.doe@example.com\"\n}"
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/leads",
+                            "raw": "{{baseUrl}}/api/v1/leads",
                             "host": [
                                 "{{baseUrl}}"
                             ],
                             "path": [
+                                "api",
+                                "v1",
                                 "leads"
                             ]
                         },
@@ -42,11 +62,13 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "{{baseUrl}}/leads/:id",
+                            "raw": "{{baseUrl}}/api/v1/leads/:id",
                             "host": [
                                 "{{baseUrl}}"
                             ],
                             "path": [
+                                "api",
+                                "v1",
                                 "leads",
                                 ":id"
                             ],
@@ -77,11 +99,13 @@
                             "raw": "{\n    \"leadId\": \"LEAD_UUID_HERE\",\n    \"message\": \"Hello, this is a follow-up message.\"\n}"
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/leads/send",
+                            "raw": "{{baseUrl}}/api/v1/leads/send",
                             "host": [
                                 "{{baseUrl}}"
                             ],
                             "path": [
+                                "api",
+                                "v1",
                                 "leads",
                                 "send"
                             ]
@@ -105,11 +129,13 @@
                             "raw": "{\n    \"leadId\": \"LEAD_UUID_HERE\",\n    \"content\": \"I am interested, please tell me more.\"\n}"
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/leads/reply",
+                            "raw": "{{baseUrl}}/api/v1/leads/reply",
                             "host": [
                                 "{{baseUrl}}"
                             ],
                             "path": [
+                                "api",
+                                "v1",
                                 "leads",
                                 "reply"
                             ]
@@ -133,11 +159,13 @@
                             "raw": "{\n    \"leadId\": \"LEAD_UUID_HERE\"\n}"
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/leads/ai-reply",
+                            "raw": "{{baseUrl}}/api/v1/leads/ai-reply",
                             "host": [
                                 "{{baseUrl}}"
                             ],
                             "path": [
+                                "api",
+                                "v1",
                                 "leads",
                                 "ai-reply"
                             ]
