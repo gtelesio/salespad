@@ -62,6 +62,42 @@ Run the included end-to-end flow verification script:
 
 ---
 
+## 🧪 Testing & CI/CD
+
+This project enforces high quality standards through automated pipelines and strict testing protocols.
+
+### 1. Testing Strategy
+*   **Unit Tests**: Implemented using **Jest**. All Use Cases and key components are tested in isolation.
+*   **Coverage**: A minimum of **20% coverage** is enforced globally (Statements, Branches, Functions, Lines).
+*   **Runtime**: Tests run using the **Bun** runtime for performance.
+
+```bash
+# Run tests with coverage
+bun run test:cov
+```
+
+### 2. Local Quality Gate (Husky)
+We use **Husky** to prevent bad code from entering the repository.
+
+*   **Pre-commit Hook**: Runs automatically before every commit.
+    *   **Lint & Format**: `bunx biome ci ./src`
+    *   **Tests**: `bun run test:cov` (Fails if coverage < 20%)
+*   **Commit-msg Hook**: Enforces **Conventional Commits** standard.
+    *   Format: `<type>: <description>` (e.g., `feat: add new lead`, `fix: resolve circular dependency`)
+
+### 3. Continuous Integration (GitHub Actions)
+A CI pipeline runs on every push to the `main` branch.
+
+**Workflow Steps:**
+1.  **Checkout & Setup**: Sets up the environment with **Bun**.
+2.  **Linting**: Validates code style and formatting with **Biome**.
+3.  **Testing**: Executes full test suite with coverage requirements.
+4.  **Build Verification**: Compiles the application (`bun run build`) to ensure deployability.
+
+View the pipeline configuration at `.github/workflows/ci.yml`.
+
+---
+
 ## 👨‍💻 Author
 
 Developed by **Gonzalo Patricio Telesio**.
