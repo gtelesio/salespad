@@ -56,7 +56,7 @@ bun run start:prod
 To verify everything is working correctly, you can run the full flow script:
 
 ```bash
-node scripts/verify-flow.js
+./scripts/verify-flow.sh
 ```
 
 This simulates lead creation, sending messages, and automated responses.

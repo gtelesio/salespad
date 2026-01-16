@@ -47,4 +47,10 @@ docker-compose up -d
 bun run start:dev
 ```
 
+## Verification Service
+
+```bash
+./scripts/verify-flow.sh
+```
+
 For more details, check the [Setup Guide](docs/setup.md).
