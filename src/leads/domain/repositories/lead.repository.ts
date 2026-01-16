@@ -1,5 +1,5 @@
-import type { Event } from '../entities/event.entity';
-import type { Lead } from '../entities/lead.entity';
+import type { Event } from '@/leads/domain/entities/event.entity';
+import type { Lead } from '@/leads/domain/entities/lead.entity';
 
 export abstract class LeadRepository {
   abstract save(lead: Lead): Promise<Lead>;

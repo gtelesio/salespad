@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import type { Job } from 'bullmq';
-import type { EmailJobData } from '../../../application/interfaces/email-job.interface';
+import type { EmailJobData } from '@/leads/application/interfaces/email-job.interface';
 
 @Processor('email-queue')
 export class EmailProcessor extends WorkerHost {

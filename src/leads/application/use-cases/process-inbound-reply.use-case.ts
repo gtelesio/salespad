@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Event, EventType } from '../../domain/entities/event.entity';
-import type { LeadRepository } from '../../domain/repositories/lead.repository';
+import { Event, EventType } from '@/leads/domain/entities/event.entity';
+import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
 @Injectable()
 export class ProcessInboundReplyUseCase {
-  constructor(private readonly leadRepository: LeadRepository) {}
+  constructor(private readonly leadRepository: LeadRepository) { }
 
   async execute(leadId: string, content: string): Promise<void> {
     const lead = await this.leadRepository.findById(leadId);

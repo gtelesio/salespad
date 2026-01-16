@@ -1,16 +1,16 @@
 import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
 import type { Queue } from 'bullmq';
-import type { EmailJobData } from '../../application/interfaces/email-job.interface'; // Using correct import now
-import { Event, EventType } from '../../domain/entities/event.entity';
-import type { LeadRepository } from '../../domain/repositories/lead.repository';
+import type { EmailJobData } from '@/leads/application/interfaces/email-job.interface';
+import { Event, EventType } from '@/leads/domain/entities/event.entity';
+import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
 @Injectable()
 export class SendOutboundMessageUseCase {
   constructor(
     private readonly leadRepository: LeadRepository,
     @InjectQueue('email-queue') private readonly emailQueue: Queue,
-  ) {}
+  ) { }
 
   async execute(leadId: string, message: string): Promise<void> {
     const lead = await this.leadRepository.findById(leadId);

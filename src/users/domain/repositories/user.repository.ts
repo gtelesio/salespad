@@ -1,4 +1,4 @@
-import type { User } from '../entities/user.entity';
+import type { User } from '@/users/domain/entities/user.entity';
 
 export abstract class UserRepository {
   abstract save(user: User): Promise<User>;

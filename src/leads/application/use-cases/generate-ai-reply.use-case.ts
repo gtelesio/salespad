@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Event, EventType } from '../../domain/entities/event.entity';
-import type { LeadRepository } from '../../domain/repositories/lead.repository';
-import type { AiMockService } from '../services/ai-mock.service';
-import type { SendOutboundMessageUseCase } from './send-outbound-message.use-case';
+import { Event, EventType } from '@/leads/domain/entities/event.entity';
+import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
+import { AiMockService } from '@/leads/application/services/ai-mock.service';
+import { SendOutboundMessageUseCase } from './send-outbound-message.use-case';
 
 @Injectable()
 export class GenerateAiReplyUseCase {
@@ -10,7 +10,7 @@ export class GenerateAiReplyUseCase {
     private readonly leadRepository: LeadRepository,
     private readonly aiMockService: AiMockService,
     private readonly sendOutboundMessageUseCase: SendOutboundMessageUseCase,
-  ) {}
+  ) { }
 
   async execute(leadId: string): Promise<string> {
     const lead = await this.leadRepository.findById(leadId);
