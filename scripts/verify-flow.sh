@@ -3,7 +3,8 @@
 # verify-flow.sh
 # Simulates the full lead lifecycle using curl.
 
-BASE_URL="http://localhost:3000"
+BASE_URL="http://localhost:3000/api/v1"
+ROOT_URL="http://localhost:3000"
 CONTENT_TYPE="Content-Type: application/json"
 
 echo "🚀 Starting E2E Verification Flow..."
@@ -14,6 +15,19 @@ get_json_value() {
     # We use sed to handle potential spacing and nested structures slightly better than simple grep.
     echo "$1" | grep -o "\"$2\":\"[^\"]*\"" | head -n 1 | cut -d':' -f2 | tr -d '"'
 }
+
+# 0. Check Root API (Metadata)
+echo "--------------------------------------------------"
+echo "0. Checking Root API Metadata..."
+ROOT_RES=$(curl -s -X GET "$ROOT_URL")
+echo "Root Response: $ROOT_RES"
+
+if echo "$ROOT_RES" | grep -q "Salespad API"; then
+    echo "✅ Root Metadata looks correct."
+else
+    echo "❌ Root Metadata Check Failed."
+    exit 1
+fi
 
 # 1. Create Lead
 echo "--------------------------------------------------"

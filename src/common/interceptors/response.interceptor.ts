@@ -29,11 +29,16 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
                 let meta = { timestamp: new Date().toISOString() };
                 let links = undefined;
 
-                if (data && data.data && data.meta) {
-                    // It's likely a paginated response or pre-formatted from service
-                    responseData = data.data;
-                    meta = { ...meta, ...data.meta };
-                    links = data.links;
+                if (data && (data.data || data.links)) {
+                    // It's likely a paginated response or pre-formatted from service/controller
+                    // If data.data exists, use it, otherwise use data itself (though logically if it has links/meta it should have data)
+                    responseData = data.data !== undefined ? data.data : data;
+                    if (data.meta) {
+                        meta = { ...meta, ...data.meta };
+                    }
+                    if (data.links) {
+                        links = data.links;
+                    }
                 }
 
                 return {
