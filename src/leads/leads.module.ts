@@ -14,14 +14,14 @@ import { LeadRepository } from './domain/repositories/lead.repository';
 import { TypeOrmLeadRepository } from './infrastructure/persistence/typeorm-lead.repository';
 import { OpenAiService } from './infrastructure/services/openai.service';
 // ... entities ...
-import { EmailProcessor } from './infrastructure/queues/consumers/email.processor';
+import { MessageProcessor } from './infrastructure/queues/consumers/message.processor';
 import { LeadsController } from './presentation/http/leads.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Lead, Event]),
     BullModule.registerQueue({
-      name: 'email-queue',
+      name: 'message-queue',
     }),
     ConfigModule,
   ],
@@ -41,7 +41,7 @@ import { LeadsController } from './presentation/http/leads.controller';
     // Services
     OpenAiService,
     // Consumers
-    EmailProcessor,
+    MessageProcessor,
   ],
 })
 export class LeadsModule { }

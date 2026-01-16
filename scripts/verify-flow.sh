@@ -111,4 +111,39 @@ echo "Final Status: $FINAL_STATUS"
 echo "Full Lead Data: $FINAL_LEAD"
 
 echo "--------------------------------------------------"
-echo "🎉 Verification Complete."
+echo "🎉 Verification Complete (Email Flow)."
+
+# 7. Verify WhatsApp Channel
+echo "--------------------------------------------------"
+echo "7. Creating WhatsApp Lead..."
+WA_ID=$((1 + $RANDOM % 100000))
+WA_PHONE="555${WA_ID}"
+
+RESPONSE_WA=$(curl -s -X POST "$BASE_URL/leads" \
+  -H "$CONTENT_TYPE" \
+  -d "{\"name\": \"WhatsApp User\", \"contactInfo\": \"$WA_PHONE\", \"channel\": \"whatsapp\"}")
+
+echo "Response Body: $RESPONSE_WA"
+LEAD_ID_WA=$(get_json_value "$RESPONSE_WA" "id")
+
+if [ -z "$LEAD_ID_WA" ]; then
+    echo "❌ Failed to create WhatsApp lead."
+    exit 1
+fi
+
+echo "Sending WhatsApp Message..."
+curl -s -X POST "$BASE_URL/leads/send" \
+  -H "$CONTENT_TYPE" \
+  -d "{\"leadId\": \"$LEAD_ID_WA\", \"message\": \"Hello from WhatsApp\"}"
+
+echo "⏳ Waiting for Queue (2s)..."
+sleep 2
+
+LEAD_CHECK_WA=$(curl -s -X GET "$BASE_URL/leads/$LEAD_ID_WA")
+if echo "$LEAD_CHECK_WA" | grep -q "whatsapp"; then
+    echo "✅ WhatsApp Lead Verified (Channel set correctly)."
+else
+    echo "❌ WhatsApp Channel Verification Failed."
+    echo $LEAD_CHECK_WA
+fi
+

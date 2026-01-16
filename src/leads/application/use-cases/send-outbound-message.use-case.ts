@@ -1,7 +1,7 @@
 import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
 import type { Queue } from 'bullmq';
-import type { EmailJobData } from '@/leads/application/interfaces/email-job.interface';
+import type { MessageJobData } from '@/leads/application/interfaces/message-job.interface';
 import { Event, EventType } from '@/leads/domain/entities/event.entity';
 import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
@@ -9,7 +9,7 @@ import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
 export class SendOutboundMessageUseCase {
   constructor(
     private readonly leadRepository: LeadRepository,
-    @InjectQueue('email-queue') private readonly emailQueue: Queue,
+    @InjectQueue('message-queue') private readonly messageQueue: Queue,
   ) { }
 
   async execute(leadId: string, message: string): Promise<void> {
@@ -19,18 +19,19 @@ export class SendOutboundMessageUseCase {
     // 1. Log Event
     const event = new Event();
     event.type = EventType.OUTBOUND;
-    event.content = message;
+    event.content = `[${lead.channel}] ${message}`; // Tag event with channel
     event.lead = lead;
     await this.leadRepository.saveEvent(event);
 
     // 2. Add to Queue
-    await this.emailQueue.add(
-      'send-email',
+    await this.messageQueue.add(
+      'send-message',
       {
         leadId,
-        email: lead.contactInfo,
+        contactInfo: lead.contactInfo,
+        channel: lead.channel,
         message,
-      } as EmailJobData,
+      } as MessageJobData,
       {
         attempts: 3,
         backoff: {

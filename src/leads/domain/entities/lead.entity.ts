@@ -8,6 +8,12 @@ export enum LeadStatus {
   CONVERTED = 'converted',
 }
 
+export enum Channel {
+  EMAIL = 'email',
+  WHATSAPP = 'whatsapp',
+  LINKEDIN = 'linkedin',
+}
+
 @Entity('leads')
 export class Lead {
   @PrimaryGeneratedColumn('uuid')
@@ -18,6 +24,13 @@ export class Lead {
 
   @Column({ unique: true })
   contactInfo: string;
+
+  @Column({
+    type: 'enum',
+    enum: Channel,
+    default: Channel.EMAIL,
+  })
+  channel: Channel;
 
   @Column({
     type: 'enum',
