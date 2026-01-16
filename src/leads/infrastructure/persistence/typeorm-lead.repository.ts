@@ -1,18 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import type { Repository } from 'typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Event } from '@/leads/domain/entities/event.entity';
 import { Lead, type LeadStatus } from '@/leads/domain/entities/lead.entity';
-import type { LeadRepository } from '@/leads/domain/repositories/lead.repository';
+import { LeadRepository } from '@/leads/domain/repositories/lead.repository';
 
 @Injectable()
 export class TypeOrmLeadRepository implements LeadRepository {
+  private readonly leadRepo: Repository<Lead>;
+  private readonly eventRepo: Repository<Event>;
+
   constructor(
-    @InjectRepository(Lead)
-    private readonly leadRepo: Repository<Lead>,
-    @InjectRepository(Event)
-    private readonly eventRepo: Repository<Event>,
-  ) {}
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
+  ) {
+    this.leadRepo = this.dataSource.getRepository(Lead);
+    this.eventRepo = this.dataSource.getRepository(Event);
+  }
 
   async save(lead: Lead): Promise<Lead> {
     return this.leadRepo.save(lead);
